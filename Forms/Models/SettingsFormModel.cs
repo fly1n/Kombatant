@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using System.Linq;
 using Buddy.Overlay.Commands;
 using ff14bot;
 using ff14bot.Managers;
 using Kombatant.Annotations;
 using Kombatant.Settings.Models;
+using Kombatant.Helpers;
 
 namespace Kombatant.Forms.Models
 {
@@ -84,32 +86,25 @@ namespace Kombatant.Forms.Models
             {
                 return new RelayCommand(s =>
                 {
-                    var to = new TargetObject(1, "Test");
-                    /*
-                    if (!Core.Me.HasTarget || BotBase.TargetWhitelist.Any(o => o.NpcId == Core.Target.NpcId) || !Core.Target.IsEnemy())
+                    if (!Core.Me.HasTarget || BotBase.TargetWhitelist.Any(whiteListEntry => whiteListEntry.NpcId == Core.Target.NpcId))
                         return;
-                    */
-                    BotBase.TargetWhitelist.Add(to);
-                    //LogHelper.Instance.Log($"Adding target {Core.Target.Name} to whitelist...");
+
+                    BotBase.TargetWhitelist.Add(new TargetObject(Core.Target.NpcId, Core.Target.Name));
+                    LogHelper.Instance.Log($"Adding target {Core.Target.Name} to whitelist...");
                 });
             }
         }
 
-        /// <summary>
-        /// Removes the currently selected entry from the targeting whitelist.
-        /// </summary>
-        public ICommand RemoveFromTargetWhitelist
+        public ICommand RemoveSelectedEntry
         {
             get
             {
                 return new RelayCommand(s =>
                 {
-                    var to = new TargetObject(Core.Target.NpcId, Core.Target.Name);
-                    /*if (!Core.Me.HasTarget || BotBase.TargetWhitelist.All(o => o.NpcId != Core.Target.NpcId) || !Core.Target.IsEnemy())
-                        return;*/
-
-                    //LogHelper.Instance.Log($"Removing target {Core.Target.Name} from whitelist...");
-                    BotBase.TargetWhitelist.Remove(to);
+                    if (BotBase.SelectedTargetRow != null)
+                    {
+                        BotBase.TargetWhitelist.Remove(BotBase.SelectedTargetRow);
+                    }
                 });
             }
         }

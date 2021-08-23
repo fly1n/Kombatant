@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using ff14bot.Helpers;
@@ -18,7 +19,7 @@ namespace Kombatant.Settings
         public static BotBase Instance => _botBase ?? (_botBase = new BotBase("Settings"));
 
         // ReSharper disable once MemberCanBePrivate.Global
-        public BotBase(string filename) : base(Path.Combine(CharacterSettingsDirectory, "Kombatant", filename + ".json")){}
+        public BotBase(string filename) : base(Path.Combine(CharacterSettingsDirectory, "Kombatant", filename + ".json")) { }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -715,15 +716,16 @@ namespace Kombatant.Settings
 
         #region Target Whitelist
 
-        private FullyObservableCollection<TargetObject> _targetWhitelist;
+        private FullyObservableCollection<TargetObject> _targetWhitelist = new FullyObservableCollection<TargetObject>();
 
         [Description("List of whitelisted targets")]
         [JsonProperty("TargetWhitelist")]
+        [JsonConverter(typeof(CustomConverter))]
         public FullyObservableCollection<TargetObject> TargetWhitelist
         {
             get
             {
-                return _targetWhitelist ?? (_targetWhitelist = new FullyObservableCollection<TargetObject>());
+                return _targetWhitelist;
             }
             set
             {
@@ -733,6 +735,8 @@ namespace Kombatant.Settings
         }
 
         #endregion
+
+        public TargetObject SelectedTargetRow { get; set; }
 
         #endregion
     }

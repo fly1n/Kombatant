@@ -171,13 +171,13 @@
 					<StackPanel Grid.Row="4" Orientation="Vertical">
 						<StackPanel Orientation="Horizontal">
 							<Button Content="Add" Command="{Binding AddToTargetWhitelist}" Margin="5" />
-							<Button Content="Remove" Command="{Binding RemoveFromTargetWhitelist}" Margin="5" />
-						</StackPanel>
-						<DataGrid ItemsSource="{Binding BotBase.TargetWhitelist}" AutoGenerateColumns="false" Height="200">
+                            <Button Content="Remove" Command="{Binding RemoveSelectedEntry}" Margin="5" />
+                        </StackPanel>
+						<DataGrid x:Name="npcWhitelist" ItemsSource="{Binding BotBase.TargetWhitelist}" SelectedItem="{Binding BotBase.SelectedTargetRow}" AutoGenerateColumns="False" Height="200">
 							<DataGrid.Columns>
-								<DataGridTextColumn Binding="{Binding BotBase.TargetWhitelist.NpcId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-								<DataGridTextColumn Binding="{Binding BotBase.TargetWhitelist.Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-							</DataGrid.Columns>
+								<DataGridTextColumn Header="NPC ID" Binding="{Binding NpcId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                <DataGridTextColumn Header="NPC Name" Binding="{Binding Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                            </DataGrid.Columns>
 						</DataGrid>
 					</StackPanel>
 				</Grid>
