@@ -90,6 +90,7 @@ namespace Kombatant.Forms.Models
                         return;
 
                     BotBase.TargetWhitelist.Add(new TargetObject(Core.Target.NpcId, Core.Target.Name));
+                    BotBase.TargetWhitelist = BotBase.TargetWhitelist;
                     LogHelper.Instance.Log($"Adding target {Core.Target.Name} to whitelist...");
                 });
             }
@@ -104,6 +105,7 @@ namespace Kombatant.Forms.Models
                     if (BotBase.SelectedTargetRow != null)
                     {
                         BotBase.TargetWhitelist.Remove(BotBase.SelectedTargetRow);
+                        BotBase.TargetWhitelist = BotBase.TargetWhitelist;
                     }
                 });
             }
